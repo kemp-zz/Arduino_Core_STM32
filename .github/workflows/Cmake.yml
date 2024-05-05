@@ -31,24 +31,7 @@ jobs:
     strategy:
       matrix:
         boardname:
-          - NUCLEO_F091RC
-          - NUCLEO_F103RB
-          - NUCLEO_F207ZG
-          - NUCLEO_F303RE
-          - NUCLEO_F411RE
-          - NUCLEO_F767ZI
-          - NUCLEO_G0B1RE
-          - NUCLEO_G474RE
-          - NUCLEO_H563ZI
-          - NUCLEO_H743ZI2
-          - NUCLEO_L073RZ
-          - NUCLEO_L152RE
-          - NUCLEO_L476RG
-          - NUCLEO_L552ZE_Q
-          - NUCLEO_U575ZI_Q
-          - P_NUCLEO_WB55RG
-          - NUCLEO_WBA55CG
-          - NUCLEO_WL55JC1
+          - STORM32_V1_31_RC
 
     steps:
       - name: Checkout
