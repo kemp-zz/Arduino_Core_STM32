@@ -23,6 +23,7 @@ on:
       - tools/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
 jobs:
   cmake:
     name: Check CMake usage
@@ -47,4 +48,4 @@ jobs:
 
       - name: Build example
         working-directory: '${{ github.workspace }}/build'
-        run: ninja
+        run: ninja -v -t targets  # 修改部分
