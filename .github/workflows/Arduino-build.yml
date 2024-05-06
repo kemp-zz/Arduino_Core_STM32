@@ -56,8 +56,7 @@ jobs:
       - name: Compilation Errors
         if: failure()
         run: |
-          cat ${{ steps.Compile.outputs.compile-result
-                    cat ${{ steps.Compile.outputs.compile-result }}
+          cat ${{ steps.Compile.outputs.compile-result }}
           exit 1
 
       - name: Create library zip
