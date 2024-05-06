@@ -1,5 +1,4 @@
 name: STM32 Core build using arduino-cli
-
 on:
   push:
     branches:
@@ -29,53 +28,24 @@ on:
       - tools/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
 jobs:
   core_build:
     runs-on: ubuntu-latest
     name: Core compilation
     steps:
-      # First of all, clone the repo using the checkout action.
-      - name: Checkout
-        uses: actions/checkout@v4
+    # First of all, clone the repo using the checkout action.
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      # Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install arduino-cli
+    - name: Compilation
+      id: Compile
+      uses: stm32duino/actions/compile-examples@v1
+      with:
+        additional-url: 'https://github.com/stm32duino/BoardManagerFiles/raw/dev/package_stmicroelectronics_index.json'
 
-      - name: Compilation
-        id: Compile
-        uses: stm32duino/actions/compile-examples@v1
-        with:
-          additional-url: 'https://github.com/stm32duino/BoardManagerFiles/raw/dev/package_stmicroelectronics_index.json'
-          board: STORM32_V1_31_RC
-
-      # Use the output from the `Compile` step
-      - name: Compilation Errors
-        if: failure()
-        run: |
-          cat ${{ steps.Compile.outputs.compile-result }}
-          exit 1
-
-      - name: Create library zip
-        if: success()
-        run: |
-          mkdir -p ./release
-          zip -r ./release/Arduino_Core_STM32.zip \
-            ./STM32 \
-            -x '**/.git'
-        shell: bash
-
-      - name: Publish library to Arduino core index
-        if: success()
-        uses: pkruse/publish-arduino-library-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          owner: kemp-zz
-          name: Arduino_Core_STM32
-          version: ${{ github.sha }}
-          zip_path: ./release/Arduino_Core_STM32.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Use the output from the `Compile` step
+    - name: Compilation Errors
+      if: failure()
+      run: |
+        cat ${{ steps.Compile.outputs.compile-result }}
+        exit 1
